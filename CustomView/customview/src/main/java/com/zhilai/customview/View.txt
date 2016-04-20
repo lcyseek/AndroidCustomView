@@ -1,0 +1,39 @@
+
+自定义View属性
+
+首先要明确一点，attr不依赖于styleable,styleable只是为了方便attr的使用。
+我们自己定义属性完全可以不放到styleable里面，比如直接在resources文件中定义一些属性：
+
+<attr name="custom_attr1" format="string" />
+<attr name="custom_attr2" format="string" />
+
+定义一个attr就会在R文件里面生成一个Id，那么我们去获取这个属性时，必须调用如下代码：
+int[] custom_attrs = {R.attr.custom_attr1,R.custom_attr2};
+TypedArray typedArray = context.obtainStyledAttributes(set,custom_attrs);
+
+而通过定义一个styleable，我们可以在R文件里自动生成一个int[]，数组里面的int就是定义在styleable里面的attr的id。
+所以我们在获取属性的时候就可以直接使用styleable数组来获取一系列的属性。
+
+ <declare-styleable name="custom_attrs">
+          <attr name="custom_attr1" format="string" />
+          <attr name="custom_attr2" format="string" />
+ </declare-styleable>
+
+declare-styleable的name属性代表了接下来定义的属性的所属控件
+
+TypedArray typedArray = context.obtainStyledAttributes(set,R.styleable.custom_attrs);
+
+AttributeSet是一个属性的集合，与一个在XML文件中的标签相联系。如在自定义View中，构造方法中会有一个AttributeSet类型的参数，
+这个参数就和XML中定义的自定义View相联系的。一般不需要直接使用它
+
+自定义的attr: 这个format就是格式
+reference   表示引用，参考某一资源ID
+string   表示字符串
+color   表示颜色值
+dimension   表示尺寸值
+boolean   表示布尔值
+integer   表示整型值
+float   表示浮点值
+fraction   表示百分数
+enum   表示枚举值
+flag   表示位运算
