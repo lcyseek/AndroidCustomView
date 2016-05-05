@@ -13,19 +13,19 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 
-    //return false： 表明事件不会被进行分发。事件会以冒泡的方式被传递给上层的view或activity的onTouchEvent方法进行消费掉。
+
+    //super.dispatchTouchEvent(ev) 这句话会下发事件
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.i("MainActivity", "dispatchTouchEvent: "+ev.getAction());
-        return false;
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.i(TAG, "onTouchEvent: "+event.getAction());
-        return super.onTouchEvent(event);
+        return false;
     }
 }
