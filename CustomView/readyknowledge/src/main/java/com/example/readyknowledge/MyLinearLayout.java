@@ -21,11 +21,19 @@ public class MyLinearLayout extends LinearLayout{
         super(context, attrs);
     }
 
-//    如果 return true，事件会分发给当前 View 并由 dispatchTouchEvent 方法进行消费，同时事件会停止向下传递；
-//    如果 return false，事件分发分为两种情况：
-//    如果当前 View 获取的事件直接来自 Activity，则会将事件返回给 Activity 的 onTouchEvent 进行消费；
-//    如果当前 View 获取的事件来自外层父控件，则会将事件返回给父 View 的  onTouchEvent 进行消费。
-//    如果返回系统默认的 super.dispatchTouchEvent(ev)，事件会自动的分发给当前 View 的 onInterceptTouchEvent 方法。
+
+    /**
+     *return true
+     *      事件会分发给当前 View 并由 dispatchTouchEvent 方法进行消费(不会向上传递,也不会向下传递)
+     *
+     *return false
+     *      如果当前 View 获取的事件直接来自 Activity，则会将事件返回给 Activity 的 onTouchEvent 进行消费；
+     *      如果当前 View 获取的事件来自外层父控件，则会将事件返回给父 View 的  onTouchEvent 进行消费。
+     *
+     *如果返回系统默认的 super.dispatchTouchEvent(ev)，事件会自动的分发给当前 View 的 onInterceptTouchEvent 方法
+     *
+     */
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         Log.i(TAG, "dispatchTouchEvent: "+event.getAction());
@@ -36,7 +44,7 @@ public class MyLinearLayout extends LinearLayout{
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.i(TAG, "onInterceptTouchEvent: "+ev.getAction());
-        return true;
+        return false;
     }
 
     @Override

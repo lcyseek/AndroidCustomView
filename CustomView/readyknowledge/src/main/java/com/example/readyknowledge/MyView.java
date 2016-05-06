@@ -5,11 +5,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 
 /**
  * Created by lcy on 2016/5/5.
  */
-public class MyView extends View {
+public class MyView extends View implements OnTouchListener{
 
     public static final String TAG = MyView.class.getSimpleName();
 
@@ -30,7 +31,12 @@ public class MyView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.i(TAG, "onTouchEvent: "+event.getAction());
-        return super.onTouchEvent(event);
+        return false;
     }
-    
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Log.i(TAG, "onTouch: "+event.getAction());
+        return false;
+    }
 }

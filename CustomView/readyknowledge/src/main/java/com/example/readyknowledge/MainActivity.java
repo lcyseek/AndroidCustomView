@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     
@@ -15,12 +15,11 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
     }
 
-
-    //super.dispatchTouchEvent(ev) 这句话会下发事件
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.i("MainActivity", "dispatchTouchEvent: "+ev.getAction());
         return super.dispatchTouchEvent(ev);
+
     }
 
     @Override
@@ -28,4 +27,5 @@ public class MainActivity extends AppCompatActivity{
         Log.i(TAG, "onTouchEvent: "+event.getAction());
         return false;
     }
+
 }
