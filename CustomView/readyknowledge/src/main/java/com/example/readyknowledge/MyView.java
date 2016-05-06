@@ -19,7 +19,8 @@ public class MyView extends View implements OnTouchListener{
     }
 
     public MyView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        super(context,attrs);
+        setOnTouchListener(this);
     }
 
     @Override
