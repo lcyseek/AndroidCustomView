@@ -122,7 +122,7 @@ public class ViewOne extends View implements View.OnClickListener{
             height = getPaddingTop() + mBound.height() + getPaddingBottom();
 //            height = Math.min(getPaddingTop() + mBound.height() + getHeight(),heightSize);
         }
-
+        
         setMeasuredDimension(width,height);
     }
 

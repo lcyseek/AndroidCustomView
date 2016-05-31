@@ -2,24 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="350dp"
+    <Button
+        android:text="start"
+        android:onClick="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.zhilai.customview.MyScrollerView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#ff0000"
-        android:layout_height="350dp"
-        android:padding="10dp">
+        android:gravity="center">
 
-        <com.zhilai.customview.ViewOne
-            android:padding="20dp"
-            app:titleSize="35sp"
-            app:titleText="helloworld"
-            app:titleColor="#0000ff"
-            app:titleBackgroundColor="#dacaaa"
+        <TextView
+            android:text="Android"
+            android:textSize="35sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </com.zhilai.customview.MyScrollerView>
 
 </LinearLayout>

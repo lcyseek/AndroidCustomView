@@ -1,1 +1,1 @@
-include ':app', ':customview', ':readyknowledge'
+include ':app', ':customview'

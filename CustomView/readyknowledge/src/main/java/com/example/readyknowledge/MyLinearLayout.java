@@ -40,6 +40,7 @@ public class MyLinearLayout extends LinearLayout{
         return super.dispatchTouchEvent(event);
     }
 
+
     //false 不拦截事件
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
