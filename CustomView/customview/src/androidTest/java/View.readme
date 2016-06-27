@@ -1,0 +1,90 @@
+当我们在一张纸上画画的时候，哪怕是简单的一只小鸡，我们也不得不考虑下面几点：
+
+这只鸡得画多大呀？多宽，多高？不能大的超过纸的范围吧？
+这只鸡画在纸的哪里呢？是纸的中间还是靠下面一点呢？
+确定好大小和位置了，该怎么画呢？公鸡母鸡？这只鸡是什么形状（当然是鸡形）？什么颜色？
+
+
+自定义View属性
+在values下新建attr.xml文件
+
+    <attr name="titleText" format="string"/>
+    <attr name="titleColor" format="color"/>
+    <attr name="titleTextSize" format="dimension"/>
+
+定义一个attr就会在R文件里面生成一个Id，那么我们去获取这个属性时，必须调用如下代码：
+
+int[] custom_attrs = {R.attr.titleText,R.attr.titleColor,R.attr.titleTextSize};
+TypedArray typedArray = context.obtainStyledAttributes(set,custom_attrs);
+
+declare-styleable是给自定义控件添加自定义属性用的。
+而通过定义一个styleable，我们可以在R文件里自动生成一个int[]，数组里面的int就是定义在styleable里面的attr的id。
+所以我们在获取属性的时候就可以直接使用styleable数组来获取一系列的属性。
+
+  TypedArray typedArray = context.obtainStyledAttributes(set,R.styleable.custom_attrs);
+
+obtainStyledAttributes函数获取属性
+    obtainAttributes(AttributeSet set, int[] attrs) //从layout设置的属性集中获取attrs中的属性
+    obtainStyledAttributes(int[] attrs) //从系统主题中获取attrs中的属性
+    obtainStyledAttributes(int resId,int[] attrs) //从资源文件定义的style中读取属性
+    obtainStyledAttributes (AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes)
+    //这是最复杂的一种情况，后面细说。
+    所谓获取属性，无非就是需要两个参数：第一，我需要获取那些属性；第二：我从哪里去获取这些属性(数据源)。
+    attrs:int[],每个方法中都有的参数，就是告诉系统需要获取那些属性的值。
+    set：表示从layout文件中直接为这个View添加的属性的集合,如：android:layout_width="match_parent"。注意，这里面的属性必然是通过xml配置添加的，也就是由LayoutInflater加载进来的布局或者View`才有这个属性集。
+
+使用自定义属性时 要加命名空间
+xmlns:custom="http://schemas.android.com/apk/res/com.example.customview01"
+
+
+/******************************************************************************************************/
+1.测量——onMeasure()：决定View的大小
+
+2.布局——onLayout()：决定View在ViewGroup中的位置
+
+3.绘制——onDraw()：如何绘制这个View。
+
+getWidth()/getHeight()返回的是右边坐标减轻坐标减去左边坐标，这要在布局之后才能确定它们的坐标，也就是说在布局后才能调用getWidth()来获取。
+所以 getWidth()/getHeight()获得的宽度是View在设定好布局后整个View的宽度。
+
+getMeasuredWidth()是对View上的内容进行测量后得到的View内容占据的宽度。 前提是你必须在父布局的onLayout()方法或者此View的onDraw()方法里调用measure(0,0);
+(measure中的参数的值你自己可以定义)，否则你得到的结果和getWidth()得到的结果是一样的。
+
+
+1.在一个类初始化时，即在构造函数当中我们是得不到View的实际大小的。感兴趣的朋友可以试一下，
+getWidth()和getMeasuredWidth()得到的结果都是0.但是我们可以从onDraw()方法裡面得到控件的大小。
+
+2. 这两个方法所得到的结果的单位是像素即pixel.
+getWidth(): 得到的是view在父Layout中佈局好后的宽度值，如果没有父佈局，那麼默认的父佈局是整个屏幕。
+
+
+View在屏幕上显示出来要先经过measure（计算）和layout（布局）.
+1、什么时候调用onMeasure方法？
+当控件的父元素正要放置该控件时调用.父元素会问子控件一个问题，“你想要用多大地方啊？”，然后传入两个参数——widthMeasureSpec和heightMeasureSpec.
+这两个参数指明控件可获得的空间以及关于这个空间描述的元数据.
+更好的方法是你传递View的高度和宽度到setMeasuredDimension方法里,这样可以直接告诉父控件，需要多大地方放置子控件.
+
+边界参数——widthMeasureSpec和heightMeasureSpec ,效率的原因以整数的方式传入
+在它们使用之前，首先要做的是使用MeasureSpec类的静态方法getMode和getSize来译解，如下面的片段所示：
+int specMode = MeasureSpec.getMode(measureSpec);
+int specSize = MeasureSpec.getSize(measureSpec);
+
+依据specMode的值，（MeasureSpec有3种模式分别是UNSPECIFIED, EXACTLY和AT_MOST）
+UNSPECIFIED
+    父控件不对你有任何限制，你想要多大给你多大，想上天就上天。这种情况一般用于系统内部，表示一种测量状态。（这个模式主要用于系统内部多次Measure的情形，并不是真的说你想要多大最后就真有多大）
+
+EXACTLY
+    父控件已经知道你所需的精确大小，你的最终大小应该就是这么大。
+
+AT_MOST
+    你的大小不能大于父控件给你指定的size，但具体是多少，得看你自己的实现。
+
+
+
+2、那么这些模式和我们平时设置的layout参数fill_parent, wrap_content有什么关系呢？
+当我们设置width或height为fill_parent时，容器在布局时调用子 view的measure方法传入的模式是EXACTLY，因为子view会占据剩余容器的空间，所以它大小是确定的。
+而当设置为 wrap_content时，容器传进去的是AT_MOST, 表示子view的大小最多是多少，这样子view会根据这个上限来设置自己的尺寸。
+当子view的大小设置为精确值时，容器传入的是EXACTLY, 而MeasureSpec的UNSPECIFIED模式目前还没有发现在什么情况下使用。
+
+View的onMeasure方法默认行为是当模式为UNSPECIFIED时，设置尺寸为mMinWidth(通常为0)或者背景drawable的最小尺寸，
+当模式为EXACTLY或者AT_MOST时，尺寸设置为传入的MeasureSpec的大小。

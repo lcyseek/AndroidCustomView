@@ -4,14 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal">
-
     <Button
         android:text="start"
         android:onClick="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.zhilai.customview.MyScrollerView
+    <Button
+        android:text="自定义TextView"
+        android:onClick="customTextView"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <com.zhilai.customview.view.MyScrollerView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,6 +30,6 @@
             android:textSize="35sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </com.zhilai.customview.MyScrollerView>
+    </com.zhilai.customview.view.MyScrollerView>
 
 </LinearLayout>

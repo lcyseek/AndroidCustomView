@@ -5,7 +5,7 @@
     <attr name="titleSize" format="dimension"></attr>
     <attr name="titleText" format="string"></attr>
     <attr name="titleColor" format="color"></attr>
-    <attr name="titleBackgroundColor" format="color"></attr>
+    <attr name="titleBackgroundColor" format="color"/>
 
     <!--name 是自定义控件的类名-->
     <declare-styleable name="ViewOne">
@@ -13,6 +13,20 @@
         <attr name="titleText"></attr>
         <attr name="titleColor"></attr>
         <attr name="titleBackgroundColor"></attr>
+    </declare-styleable>
+
+
+
+    <attr name="myTextString" format="string"/>
+    <attr name="myTextColor" format="color"/>
+    <attr name="myTextSize" format="dimension"/>
+    <attr name="myBackground" format="color"/>
+
+    <declare-styleable name="MyTextView03">
+        <attr name="myTextString"/>
+        <attr name="myTextColor"/>
+        <attr name="myTextSize"/>
+        <attr name="myBackground"/>
     </declare-styleable>
 
 </resources>

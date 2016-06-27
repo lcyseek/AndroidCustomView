@@ -1,4 +1,4 @@
-package com.zhilai.customview;
+package com.zhilai.customview.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
